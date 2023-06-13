@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  api_url: '',
   firebaseConfig: {
     apiKey: "AIzaSyCSsD9IgnFD1Ul3qlJ12t5litFzUcySk2U",
     authDomain: "etica-conocimiento-4fa8a.firebaseapp.com",
