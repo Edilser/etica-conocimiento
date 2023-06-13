@@ -1,0 +1,29 @@
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="title">Bienvenido al módulo de "{{currentModule.title}}"</h1>
+                <p class="description">Instrucciones: A continuación se presenta un conjunto de diapositivas las cuales contiene información importante,
+                    preste mucha atención al contenido presentado, puesto que posteriormente se realizara una evaluación del tema.
+                </p>
+            </div>
+        </div>
+        <div class="row" *ngIf="currentModule.url">
+            <div class="col-md-12">
+                <div class="containerIframe">
+                    <iframe loading="lazy"
+                        [src]="currentModule.url" allowfullscreen="allowfullscreen" allow="fullscreen">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="actions" [class.one]="!permitNext">
+                    <button *ngIf="permitNext" class="btn btn-warning" (click)="nextModule()">Siguiente módulo</button>
+                    <button *ngIf="permitQuiz" class="btn btn-success" (click)="startQuiz()">Iniciar evaluación</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

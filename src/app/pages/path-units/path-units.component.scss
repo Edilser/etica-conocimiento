@@ -1,0 +1,41 @@
+.bg-orange {
+    background-color: #F38901 !important;
+}
+li {
+    color: white !important;
+}
+
+.text-orange {
+    color: #F38901 !important;
+}
+
+a {
+    color: #8D8D8D !important;
+}
+
+:host ::ng-deep .ngx-datatable.bootstrap .datatable-header .datatable-header-cell .datatable-header-cell-label {
+    color: #F38901 !important;
+}
+:host ::ng-deep .datatable-header .datatable-header-cell {
+    background-color: #FCF9F6 !important;
+}
+
+:host ::ng-deep #datatable_length select {
+    background-color: #F38901 !important;
+    color: white !important;
+    font-size:13px;
+    padding:2px 2px 2px 2px;
+    border-radius: 15px !important;
+}
+input[type="file"] {
+    display: none;
+}
+.custom-file-upload {
+    border-radius: 3rem;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #FFD574;
+    color: #F38901;
+    font-weight: bold;
+}

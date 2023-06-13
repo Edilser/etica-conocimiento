@@ -1,0 +1,50 @@
+.content {
+    background-color: white;
+    border-radius: 10px;
+    margin-left: 4em;
+    margin-right: 4em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    margin-bottom: 2em;
+}
+.title {
+    text-align: center;
+}
+
+.actions {
+    text-align: center;
+}
+
+.description {
+    font-weight: bold;
+    font-size: 16px;
+    color: black;
+    text-align: justify;
+    span {
+        font-weight: 300;
+    }
+}
+
+input, label {
+    cursor: pointer;
+}
+
+label {
+    margin-left: 5px;
+}
+
+.containerQuestions {
+    display: flex;
+    gap: 2.5em;
+    border-bottom: 2px solid;
+    h2 {
+        color: #EA0029;
+        span {
+            font-size: 25px;
+        }
+    }
+}
+
+.hide {
+    border-bottom: none;
+}

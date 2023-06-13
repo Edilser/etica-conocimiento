@@ -1,0 +1,30 @@
+.content {
+    background-color: white;
+    border-radius: 10px;
+    margin-left: 4em;
+    margin-right: 4em;
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    margin-bottom: 2em;
+}
+.title {
+    text-align: center;
+}
+
+th {
+    color: white !important;
+}
+
+.valid {
+    background-color: green;
+    border-radius: 20px;
+    padding: 5px;
+    color: white;
+}
+
+.invalid {
+    background-color: #EA0029;
+    border-radius: 20px;
+    padding: 5px;
+    color: white;
+}

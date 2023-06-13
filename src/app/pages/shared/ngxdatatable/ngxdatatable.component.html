@@ -1,0 +1,155 @@
+<div class="mt-4">
+  <div class=" row">
+    <div class=" col">
+      <div class=" card">
+        <div class="card-header card-header-container">
+          <div>
+            <h3 class=" mb-0">{{ title }}</h3>
+            <p class=" text-sm mb-0">
+              {{ description }}
+            </p>
+          </div>
+          <div>
+            <label class="custom-file-upload" *ngIf="customBtn.isFile">
+              <input accept=".xlsx, .xls, .csv" type="file" (change)="uploadExcel($event.target.files)"/>
+              <i class="fa fa-cloud-upload"></i> {{'Cargar'}}
+            </label>
+            <button *ngIf="customBtn.show" class="btn ml-3" (click)="customButton()">{{customBtn.text}}</button>
+          </div>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="row">
+                    <div class="col-md-6 text-right" id="dateFilter" (click)="dp.toggle()" [attr.aria-expanded]="dp.isOpen">   <!--(click)="openDatePicker()" showDateFilter = !showDateFilter; isOpen =! isOpen-->
+                            <img style="cursor: pointer;" src="assets/img/dashboard/fecha.png" alt="">
+                    </div>
+                    <div class="col-md-6">
+                      <input class="form-control"
+                        bsDatepicker
+                        #dp="bsDatepicker"
+                        disabled
+                        id="valueDate"
+                        [maxDate]="maxDate"
+                        [class.activeDate]="isOpen"
+                        [class.notActiveDate]="!isOpen"
+                        [bsConfig]="{isAnimated: true, containerClass: 'theme-orange', adaptivePosition: true}"
+                        (bsValueChange)="dateChange($event)"/>
+                    </div>
+                    <!-- <div class="col-md-6" *ngIf="showDateFilter">
+                        <input name="dateFilter" id="dateFilter" type="date" class="form-control  form-control-sm" #dateFilter (change)="printDate(dateFilter)">
+                    </div> -->
+                    <!-- <div class="col-md-5 text-left">
+                        <div id="datatable_filter" class="dataTables_filter">
+                          <label>
+                            <input
+                              type="search"
+                              class="form-control form-control-sm"
+                              placeholder="Buscar data"
+                              aria-controls="datatable"
+                              (keyup)="filterTable($event)"
+                            />
+                          </label>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 text-right">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div id="datatable_filter" class="dataTables_filter">
+                          <label>
+                            <input
+                              id="searchData"
+                              type="text"
+                              class="form-control form-control-sm"
+                              placeholder="Buscar..."
+                              aria-controls="datatable"
+                              (keyup)="filterTable($event)"
+                            />
+                          </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="dataTables_length" id="datatable_length">
+                        <label class="mr-4" style="justify-content: flex-end">
+                            Mostrar
+                          <select
+                            name="datatable_length"
+                            aria-controls="datatable"
+                            class="form-control form-control-sm entries"
+                            (change)="entriesChange($event)"
+                          >
+                            <option value="10" [selected]="entries == 10">10</option>
+                            <option value="25" [selected]="entries == 25">25</option>
+                            <option value="50" [selected]="entries == 50">50</option>
+                            <option value="-1" [selected]="entries == -1">All</option>
+                          </select>
+                          entradas
+                        </label>
+                      </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+          <div class="container-fluid showspinner" *ngIf="isLoading.show">
+            <div class="row justify-content-center">
+              <div class="col-md-5 d-flex align-items-center justify-content-center">
+                <h2><strong>{{isLoading.name}}</strong></h2>
+                <div class="spinner-border ml-5" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div>
+                </div>
+              </div>
+          </div>
+          <ngx-datatable
+            #table
+            class="bootstrap selection-cell"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="70"
+            [scrollbarH]="true"
+            [rowHeight]="'auto'"
+            [limit]="entries != -1 ? entries : undefined"
+            [rows]="temp"
+            (activate)="onActivate($event)"
+            [messages]="messageEmpyData"
+            [externalPaging]="true"
+            [count]="totalElements"
+            [offset]="offset"
+            [limit]="limit"
+            (page)="setPage($event)"
+          >
+            <!-- <ngx-datatable-column *ngFor="let column of columns" name="{{column.name}}"></ngx-datatable-column> -->
+            <ng-container *ngFor="let column of columns">
+              <ngx-datatable-column [name]="column.name" [prop]="column.prop" *ngIf="column.isButtonPlaza">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                  <div>
+                    <p *ngIf="value === 'Positivo' || value === 'Confiable'" class="{{column.classSuccess}}">Confiable</p>
+                    <p *ngIf="value === 'Negativo' || value === 'No Confiable'" class="{{column.classError}}">No confiable</p>
+                    <p *ngIf="value === 'Revision' || value === 'Confiable Condicionado'" class="{{column.classWarning}}">Confiable condicionado</p>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column [name]="column.name" [prop]="column.prop" *ngIf="!column.isButtonPlaza">
+
+              </ngx-datatable-column>
+            </ng-container>
+            <ngx-datatable-column name="Acciones" *ngIf="rowActions.length">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <td class="table-actions">
+                        <a class="table-action"
+                        style="cursor: pointer;"
+                          *ngFor="let action of rowActions"
+                          [tooltip]="action.name"
+                          placement=""
+                          (click)="emmitRowAction(action.action)">
+                            <i [class]="action.icon"> </i>
+                        </a>
+                    </td>    
+                </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+<div class="content">
+    <div class="container" *ngIf="!start">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="title">Evaluación del módulo de "{{currentModule?.title}}"</h1>
+                <p class="description">
+                    Instrucciones:
+                    <span>A continuación se presenta un conjunto interrogantes las cuales tienen por objetivo medir el nivel de
+                        conocimiento, las preguntas son en relación al tema {{currentModule?.title}}.</span>
+                </p>
+                <p class="description">
+                    Duración:
+                    <span>10 minutos</span>
+                </p>
+                <p class="description">
+                    Intentos permitidos:
+                    <span>3</span>
+                </p>
+                <p class="description">
+                    Intentos realizados:
+                    <span>{{ userExams.length === 0 ? 0 : currentQuiz?.intents }}</span>
+                </p>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <div class="actions">
+                    <button class="btn btn-success" (click)="startQuiz()">{{textQuiz}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" *ngIf="start" [formGroup]="questionsForm" (ngSubmit)="create()">
+        <ng-container *ngIf="!viewResults">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="title">Prueba iniciada</h1>
+                    <p class="description">Comenzando el: <span>{{timeStartText}}</span></p>
+                    <h2 class="title mt-4 questionsTitle">Serie de preguntas</h2>
+                </div>
+            </div>
+            <ng-container *ngFor="let question of frmInputsExisting().controls; let questionIndex=index">
+                <div class="row py-3" [formGroupName]="questionIndex">
+                    <div class="col-md-12">
+                        <div class="containerQuestions" [class.hide]="(questionIndex+1) === questionsForm.value.length">
+                            <div>
+                                <h2>Pregunta <span>{{questionIndex+1}}</span></h2>
+                            </div>
+                            <div>
+                                <p style="color: black; font-weight: bold;">{{question.value.question}}</p>
+                                <div *ngFor="let answer of question.value.answers">
+                                    <p> 
+                                        <input type="radio" name="" [id]="question.value.key+'-'+answer.key" [value]="answer.key" formControlName="answerSelected">
+                                        <label [for]="question.value.key+'-'+answer.key">{{answer.answer}}</label>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <div class="row" *ngIf="questionsForm.valid">
+                <div class="col-md-12 text-center">
+                    <button class="btn btn-success" (click)="finishedQuestions()">Finalizar</button>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="viewResults">
+            <h1 class="title">Evaluación finalizada</h1>
+            <p style="font-weight: bold; color: black;">Resultados</p>
+            <p class="description">Comenzado el: <span>{{timeStartText}}</span></p>
+            <p class="description">Estado: <span>Finalizado</span></p>
+            <p class="description">Finalizado el: <span>{{timeFinishedText}}</span></p>
+            <p class="description">Tiempo empleado: <span>{{timeUsed}}</span></p>
+            <p class="description">Calificación: <span>{{textQualification}}</span></p>
+            <div class="w-100 text-center">
+                <button class="btn btn-success" (click)="close()">Cerrar</button>
+            </div>
+        </ng-container>
+    </div>
+</div>
+

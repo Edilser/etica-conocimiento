@@ -1,0 +1,45 @@
+<div class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="title">Resumen de resultados obtenidos</h1>
+            </div>
+        </div>
+        <div class="row mt-3" *ngIf="exams.length > 0">
+            <div class="col-md-12">
+                <div class="table-responsive-md">
+                    <table class="table table-sm">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Módulo</th>
+                                <th scope="col">Calificación / 10</th>
+                                <th scope="col">Procentaje</th>
+                                <th scope="col">Tiempo empleado</th>
+                                <th scope="col">Prueba finalizada</th>
+                                <th scope="col">Resutlado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let exam of exams">
+                                <td>{{exam.module}}</td>
+                                <td class="text-center">{{exam.right}}</td>
+                                <td class="text-center">{{exam.percent}}%</td>
+                                <td class="text-center">{{exam.timeUsed}}</td>
+                                <td>{{exam.endTime}}</td>
+                                <td class="text-center">
+                                    <span class="valid" *ngIf="exam.result">Aprobado</span>
+                                    <span class="invalid" *ngIf="!exam.result">Reprobado</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="exams.length === 0">
+            <div class="col-md-12">
+                <p style="text-align: center; color: #EA0029;">No has realizado ningún examen</p>
+            </div>
+        </div>
+    </div>
+</div>
